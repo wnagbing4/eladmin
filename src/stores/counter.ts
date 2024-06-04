@@ -1,12 +1,22 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+export const useStore = defineStore('main', {
+  state: () => {
+    return {
+      token: {},
+      verifyPassword:''
+    }
+  },
+  getters: {
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+  },
+  actions: {
+    getTokens(token: Object) {
+      console.log(token, 'token')
+      this.token = token
+    },
+  },
+  persist: {
+    storage: sessionStorage
   }
-
-  return { count, doubleCount, increment }
 })

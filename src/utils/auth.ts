@@ -9,18 +9,14 @@ import Cookies from 'js-cookie'
 /**
  * 设置cookies
  */
-let token = 'token'
-function setToken(value: string) {
-  Cookies.set(token, value)
+const token = 'token'
+export function setToken(tokenKey:string,value: string) {
+  return Cookies.set(tokenKey, value)
 }
-function getToken() {
-  return Cookies.get(token)
+export function getToken(tokenKey:string) {
+  return Cookies.get(tokenKey)
 }
-function removeToken() {
-  Cookies.remove(token)
+export function removeToken(tokenKey:string) {
+  Cookies.remove(tokenKey)
 }
-export default {
-  setToken,
-  getToken,
-  removeToken
-}
+
