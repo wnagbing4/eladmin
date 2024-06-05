@@ -55,12 +55,12 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import type { ComponentSize, FormInstance, FormRules } from "element-plus";
-import { getImage, Login } from "../../api/api";
+import { codeImg, Login } from "../../api/index";
 import { GoodsFilled, Avatar, SuccessFilled } from "@element-plus/icons-vue";
-import { useStore } from "../../stores/counter";
+import { useStore } from "@/stores/counter";
 import { useRouter } from "vue-router";
 import { setToken, getToken } from "../../utils/auth";
-import { encrypted } from "./Encipher";
+import { encrypt } from "../../utils/rsaEncrypt";
 import { ElMessage } from 'element-plus'
 const store = useStore();
 const router = useRouter();
@@ -98,7 +98,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       if (ruleForm.copyPassword === getToken("copyPassword")) {
-        ruleForm.copyPassword = encrypted(ruleForm.copyPassword) as string;
+        ruleForm.copyPassword = encrypt(ruleForm.copyPassword) as string;
         console.log(ruleForm.copyPassword);
       }
       Login({
@@ -119,9 +119,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             ElMessage.error(res.message)
           }
         })
-        .catch((error: any) => {
-          console.log(error, "error");
-        });
     } else {
       console.log("error submit!", fields);
     }
@@ -129,7 +126,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 // 获取验证码
 const getImages = async () => {
-  let res: any = await getImage();
+  let res: any = await codeImg();
   console.log(res, "data");
   form.imgs = res.img;
   // form.imgs = res.img;
@@ -146,7 +143,7 @@ const getImg = () => {
 .image_box {
   width: 100%;
   height: 100%;
-  background: url("../../assets/image/background.jpeg") no-repeat;
+  background: url("@/assets/img/login.jpeg") no-repeat;
   background-size: 100% 100%;
   display: flex;
   justify-content: center;

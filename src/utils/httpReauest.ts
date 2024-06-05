@@ -1,11 +1,3 @@
-/*
- * @Author: wangbing56 12267007+wangbing56@user.noreply.gitee.com
- * @Date: 2024-05-31 14:27:48
- * @LastEditors: wangbing56 12267007+wangbing56@user.noreply.gitee.com
- * @LastEditTime: 2024-06-04 14:25:59
- * @FilePath: \eladmin\src\utils\httpReauest.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 /**
  * 封装axios请求
  * 
@@ -63,7 +55,7 @@ class Request {
         this.serves.interceptors.request.use(
             (config: InternalAxiosRequestConfig) => {
                 // 因为将token已经封装cookie中,所以从cookie取出token,进行放置
-                config.headers["Authorization"] = getToken()
+                config.headers["Authorization"] = getToken("Authorization")
                 return config
             },
             (error: AxiosError) => {
@@ -86,7 +78,7 @@ class Request {
                 const { data, config } = response // 解构
                 if (data.status === TS.Code.GUOQI) {
                     // 登录信息失效，应跳转到登录页面，并清空本地的token
-                    removeToken()
+                    removeToken("Authorization")
                     router.replace({ path: '/login' })
                     return Promise.reject(data)
                 } // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报
@@ -94,9 +86,7 @@ class Request {
             },
             /**请求报错 */
             (error: AxiosError) => {
-                console.log("++++++++++++")
-                console.log(error)
-                console.log("------------")
+
                 let title: string = ""
                 /**
                  * 先判断返回的是否是401,如果是401就跳转到登录页面,如果不是,其他返回状态,根据状态报错
@@ -105,40 +95,41 @@ class Request {
                 if (error && response) {
                     // 401, token失效
                     if (response.status === TS.Code.GUOQI) {
-                        removeToken()
+                        removeToken("Authorization")
                         router.push(
                             {
                                 name: 'login'
                             }
                         )
                     }
-                    switch (
-                    response.status // 跨域存在获取不到状态码的情况
-                    ) {
-                        case TS.Code.ERROR:
-                            title = '错误请求'
-                            break
-                        case TS.Code.GUOQI:
-                            title = '资源未授权'
-                            break
-                        case TS.Code.NOFOUND:
-                            title = '未找到所请求的资源'
-                            break
-                        case TS.Code.FUERROR:
-                            title = '内部服务器错误'
-                            break
+                    // switch (
+                    // response.status // 跨域存在获取不到状态码的情况
+                    // ) {
+                    //     // case TS.Code.ERROR:
+                    //     //     title = '错误请求'
+                    //     //     break
+                    //     case TS.Code.GUOQI:
+                    //         title = '资源未授权'
+                    //         break
+                    //     // case TS.Code.NOFOUND:
+                    //     //     title = '未找到所请求的资源'
+                    //     //     break
+                    //     // case TS.Code.FUERROR:
+                    //     //     title = '内部服务器错误'
+                    //     //     break
 
-                        default:
-                            title = response.status.toString()
-                    }
-                    return ElMessageBox.alert(
-                        title,
-                        '提示',
-                        {
-                            confirmButtonText: 'OK',
-                            type: 'warning',
-                        }
-                    )
+                    //     default:
+                    //         title = response.status.toString()
+                    // }
+                    // ElMessageBox.alert(
+                    //     title,
+                    //     '提示',
+                    //     {
+                    //         confirmButtonText: 'OK',
+                    //         type: 'warning',
+                    //     }
+                    // )
+                    return response.data
                 } else {
                     // 跨域获取不到状态码或者其他状态进行的处理
                     return ElMessageBox.alert(
@@ -175,16 +166,16 @@ class Request {
      *          totalElements: number
      *   }
      */
-    get<T>(url: string, params?: T): Promise<T> {
+    get<T>(url: string, params?: object): Promise<T> {
         return this.serves.get(this.adUrl(url), { params })
     }
-    post<T>(url: string, params?: T): Promise<T> {
+    post<T>(url: string, params?: object): Promise<T> {
         return this.serves.post(this.adUrl(url), params)
     }
-    put<T>(url: string, params?: T): Promise<T> {
+    put<T>(url: string, params?: object): Promise<T> {
         return this.serves.put(this.adUrl(url), params)
     }
-    delete<T>(url: string, params?: T): Promise<T> {
+    delete<T>(url: string, params?: object): Promise<T> {
         return this.serves.delete(this.adUrl(url), { params })
     }
 }
