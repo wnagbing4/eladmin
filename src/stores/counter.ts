@@ -4,7 +4,7 @@ export const useStore = defineStore('main', {
   state: () => {
     return {
       token: {},
-      verifyPassword:'',
+      verifyPassword: '',
       path: [],
       // 面包屑数据
       crumbsDate: [],
@@ -19,9 +19,7 @@ export const useStore = defineStore('main', {
       active: '/HomePage'
     }
   },
-  getters: {
-
-  },
+  getters: {},
   actions: {
     getTokens(token: Object) {
       console.log(token, 'token')

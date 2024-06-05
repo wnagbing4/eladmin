@@ -3,42 +3,42 @@
   <div id="main" style="height: 400px; width: 100%"></div>
 </template>
 <script setup lang="ts">
-import echarts from "echarts";
+import echarts from 'echarts'
 
-import { onMounted } from "vue";
+import { onMounted } from 'vue'
 onMounted(() => {
-  type EChartsOption = echarts.EChartsOption;
+  type EChartsOption = echarts.EChartsOption
 
-  var chartDom = document.getElementById("main")!;
-  var myChart = echarts.init(chartDom);
-  var option: EChartsOption;
+  var chartDom = document.getElementById('main')!
+  var myChart = echarts.init(chartDom)
+  var option: EChartsOption
 
   option = {
     title: {
-      text: "333",
-      left: "center",
-      top: "10px",
-      bottom: "aurto",
+      text: '333',
+      left: 'center',
+      top: '10px',
+      bottom: 'aurto',
       textStyle: {
-        fonstSize: 18,
-      },
+        fonstSize: 18
+      }
     },
     xAxis: {
-      type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
     yAxis: {
-      type: "value",
+      type: 'value'
     },
     series: [
       {
         data: [120, 200, 150, 80, 70, 110, 130],
-        type: "bar",
-      },
-    ],
-  };
+        type: 'bar'
+      }
+    ]
+  }
 
-  option && myChart.setOption(option);
-});
+  option && myChart.setOption(option)
+})
 </script>
 <style lang="scss" scoped></style>

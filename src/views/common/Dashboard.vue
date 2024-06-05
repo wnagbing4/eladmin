@@ -15,10 +15,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import Menu from "@/components/menu/MenuList.vue";
-import echarts from "echarts";
-import { onMounted } from "vue";
-onMounted(() => {});
+import Menu from '@/components/menu/MenuList.vue'
+import echarts from 'echarts'
+import { onMounted } from 'vue'
+onMounted(() => {})
 </script>
 <style lang="scss" scoped>
 .common-layout {

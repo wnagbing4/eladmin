@@ -71,25 +71,25 @@
   </el-row>
 </template>
 <script lang="ts" setup>
-import { Document, Menu as IconMenu, Location, Setting } from "@element-plus/icons-vue";
-import { getMenuListApi } from "@/api/api";
-import { reactive } from "vue";
-import LeftMenu from "./LeftMenu.vue";
+import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
+import { getMenuListApi } from '@/api/api'
+import { reactive } from 'vue'
+import LeftMenu from './LeftMenu.vue'
 const dataList: any = reactive({
-  menuList: {},
-});
+  menuList: {}
+})
 const getMenu = async () => {
-  let res = await getMenuListApi();
-  console.log(res, "resres");
-  dataList.menuList = res;
-};
-getMenu();
+  let res = await getMenuListApi()
+  console.log(res, 'resres')
+  dataList.menuList = res
+}
+getMenu()
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
+  console.log(key, keyPath)
+}
 const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
+  console.log(key, keyPath)
+}
 </script>
 <style lang="scss" scoped>
 .mb-2 {

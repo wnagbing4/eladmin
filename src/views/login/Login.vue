@@ -13,18 +13,10 @@
           class="demo-ruleForm"
           status-icon
         >
-          <el-form-item
-            prop="username"
-            hide-required-asterisk
-            style="width: 336px; height: 39px"
-          >
+          <el-form-item prop="username" hide-required-asterisk style="width: 336px; height: 39px">
             <el-input v-model="ruleForm.username" :prefix-icon="Avatar" />
           </el-form-item>
-          <el-form-item
-            prop="password"
-            hide-required-asterisk
-            style="width: 336px; height: 39px"
-          >
+          <el-form-item prop="password" hide-required-asterisk style="width: 336px; height: 39px">
             <el-input
               v-model="ruleForm.password"
               @change="save"
@@ -53,100 +45,100 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
-import type { ComponentSize, FormInstance, FormRules } from "element-plus";
-import { getImage, Login } from "../../api/api";
-import { GoodsFilled, Avatar, SuccessFilled } from "@element-plus/icons-vue";
-import { useStore } from "../../stores/counter";
-import { useRouter } from "vue-router";
-import { setToken, getToken } from "../../utils/auth";
-import { encrypted } from "./Encipher";
+import { reactive, ref } from 'vue'
+import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import { getImage, Login } from '../../api/api'
+import { GoodsFilled, Avatar, SuccessFilled } from '@element-plus/icons-vue'
+import { useStore } from '../../stores/counter'
+import { useRouter } from 'vue-router'
+import { setToken, getToken } from '../../utils/auth'
+import { encrypted } from './Encipher'
 import { ElMessage } from 'element-plus'
-const store = useStore();
-const router = useRouter();
+const store = useStore()
+const router = useRouter()
 interface RuleForm {
-  username: string;
-  password: string;
-  code: string;
-  uuid: string;
-  copyPassword: string;
+  username: string
+  password: string
+  code: string
+  uuid: string
+  copyPassword: string
 }
 const form = reactive({
-  imgs: "",
-  checked1: "false",
-});
-const ruleFormRef = ref<FormInstance>();
+  imgs: '',
+  checked1: 'false'
+})
+const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
-  username: "admin",
-  password: "123456",
-  code: "",
-  uuid: "",
-  copyPassword: "123456",
-});
+  username: 'admin',
+  password: '123456',
+  code: '',
+  uuid: '',
+  copyPassword: '123456'
+})
 
 const rules = reactive<FormRules<RuleForm>>({
-  username: [{ required: true, message: "请输如账号", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-});
-setToken("copyPassword", ruleForm.password);
+  username: [{ required: true, message: '请输如账号', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+})
+setToken('copyPassword', ruleForm.password)
 const save = () => {
-  setToken("copyPassword", ruleForm.password);
-  ruleForm.copyPassword = ruleForm.password;
-};
+  setToken('copyPassword', ruleForm.password)
+  ruleForm.copyPassword = ruleForm.password
+}
 const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
+  if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      if (ruleForm.copyPassword === getToken("copyPassword")) {
-        ruleForm.copyPassword = encrypted(ruleForm.copyPassword) as string;
-        console.log(ruleForm.copyPassword);
+      if (ruleForm.copyPassword === getToken('copyPassword')) {
+        ruleForm.copyPassword = encrypted(ruleForm.copyPassword) as string
+        console.log(ruleForm.copyPassword)
       }
       Login({
         username: ruleForm.username,
         uuid: ruleForm.uuid,
         password: ruleForm.copyPassword,
-        code: ruleForm.code,
+        code: ruleForm.code
       })
         .then((res: any) => {
-          console.log(res);
+          console.log(res)
 
           if (!res.status) {
-            console.log(res, "res");
-            store.getTokens(res.token);
-            setToken("Authorization", res.token);
-            router.replace("/dashboard");
-          }else{
+            console.log(res, 'res')
+            store.getTokens(res.token)
+            setToken('Authorization', res.token)
+            router.replace('/dashboard')
+          } else {
             ElMessage.error(res.message)
           }
         })
         .catch((error: any) => {
-          console.log(error, "error");
-        });
+          console.log(error, 'error')
+        })
     } else {
-      console.log("error submit!", fields);
+      console.log('error submit!', fields)
     }
-  });
-};
+  })
+}
 // 获取验证码
 const getImages = async () => {
-  let res: any = await getImage();
-  console.log(res, "data");
-  form.imgs = res.img;
+  let res: any = await getImage()
+  console.log(res, 'data')
+  form.imgs = res.img
   // form.imgs = res.img;
-  ruleForm.uuid = res.uuid;
-};
-getImages();
+  ruleForm.uuid = res.uuid
+}
+getImages()
 // 点击更换验证码
 const getImg = () => {
-  getImages();
-};
+  getImages()
+}
 </script>
 
 <style lang="scss" scoped>
 .image_box {
   width: 100%;
   height: 100%;
-  background: url("../../assets/image/background.jpeg") no-repeat;
+  background: url('../../assets/image/background.jpeg') no-repeat;
   background-size: 100% 100%;
   display: flex;
   justify-content: center;

@@ -10,13 +10,12 @@ import Cookies from 'js-cookie'
  * 设置cookies
  */
 const token = 'token'
-export function setToken(tokenKey:string,value: string) {
+export function setToken(tokenKey: string, value: string) {
   return Cookies.set(tokenKey, value)
 }
-export function getToken(tokenKey:string) {
+export function getToken(tokenKey: string) {
   return Cookies.get(tokenKey)
 }
-export function removeToken(tokenKey:string) {
+export function removeToken(tokenKey: string) {
   Cookies.remove(tokenKey)
 }
-

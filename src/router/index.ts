@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: '',
-      redirect:'/login'
+      redirect: '/login'
       // component: ()=>import('@/views/login/Login.vue')
     },
     {
@@ -16,20 +16,20 @@ const router = createRouter({
       component: () => import('@/views/login/Login.vue')
     },
     {
-      path: "/dashboard",
-      name: "dashboard",
+      path: '/dashboard',
+      name: 'dashboard',
       component: () => import('../views/common/Dashboard.vue'),
-      resirect:'/home',
-      children:[
+      resirect: '/home',
+      children: [
         {
-          path:'/home',
-          name:'home',
-          component:()=>import('../views/sys/home/Home.vue')
+          path: '/home',
+          name: 'home',
+          component: () => import('../views/sys/home/Home.vue')
         },
         {
-          path:'/user',
-          name:'user',
-          component:()=>import('../views/sys/user/Use.vue')
+          path: '/user',
+          name: 'user',
+          component: () => import('../views/sys/user/Use.vue')
         }
       ]
     }
