@@ -106,13 +106,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             console.log(res, 'res')
             store.getTokens(res.token)
             setToken('Authorization', res.token)
-            router.replace('/dashboard')
+            router.replace('/home')
           } else {
             ElMessage.error(res.message)
           }
-        })
-        .catch((error: any) => {
-          console.log(error, 'error')
         })
     } else {
       console.log('error submit!', fields)

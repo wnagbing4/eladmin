@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import type { Leftmenus } from '@/api/type'
 export const useStore = defineStore('main', {
   state: () => {
     return {
@@ -12,11 +13,11 @@ export const useStore = defineStore('main', {
       tabs: [
         {
           title: '首页',
-          name: '/HomePage',
-          path: '/HomePage'
+          name: 'home',
+          path: '/home'
         }
       ],
-      active: '/HomePage'
+      // active: '/home'
     }
   },
   getters: {},
